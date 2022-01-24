@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function useFetch() {
+export default function useFetch(params) {
 
     const { REACT_APP_BASE_URL: BASE_URL } = process.env
   
@@ -9,7 +9,7 @@ export default function useFetch() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
-    const fetchData = async (params) => {
+    const fetchData = async () => {
         try {
             setLoading(true)
             const response = await axios.get(`${BASE_URL}?${params}`)
@@ -18,10 +18,13 @@ export default function useFetch() {
             setError(error)
         } finally {
             setLoading(false)
-            return { data, loading, error }
         }
     }
 
-    return fetchData
+    useEffect(() => {
+        fetchData()
+    }, [params])
+    
+    return { data, loading, error, fetchData }
 
 }
