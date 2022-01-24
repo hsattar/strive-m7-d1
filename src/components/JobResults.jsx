@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import SingleJob from './SingleJob'
+import SkeletonJobResult from './SkeleteonJobResult'
 
 export default function JobResults() {
 
@@ -28,6 +29,13 @@ export default function JobResults() {
     <Container maxWidth="xl" style={{ margin: '3rem 0'}}>
       <h2>Showing results for {searchParams.get('query')}</h2>
       <Grid container spacing={2} style={{ marginTop: '0.5rem'}}>
+      {
+        loading && [1, 2, 3, 4, 5, 6].map(num => (
+          <Grid item  key={num} xs={12} md={6}>
+            <SkeletonJobResult />
+          </Grid>
+        ))
+      }
       {
         data && data.map(job => (
           <Grid item  key={job._id} xs={12} md={6}>

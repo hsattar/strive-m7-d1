@@ -11,7 +11,7 @@ export default function BasicCard({ job }) {
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography variant="h5" component="h5">{job.title}</Typography>
-        <Link to={`/company/${job.company_name}`}><Typography sx={{ mb: 1.5, mt: 1 }} color="text.secondary">{job.company_name}</Typography></Link>
+        <Link to={`/company/${job.company_name}`} style={{ textDecoration: 'none'}}><Typography sx={{ mb: 1.5, mt: 1 }} color="text.secondary" >{job.company_name}</Typography></Link>
         <Typography variant="body2">{job.candidate_required_location}</Typography>
       </CardContent>
       <CardActions>

@@ -2,3 +2,24 @@ body {
     margin: 0;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
+
+.skeleton {
+    background-color: #bebdbd;
+    height: 10px
+}
+
+.skeleton-w25 {
+    width: 25%;
+}
+
+.skeleton-w50 {
+    width: 50%
+}
+
+.skeleton-w75 {
+    width: 75%
+}
+
+.skeleton-w100 {
+    width: 100%
+}

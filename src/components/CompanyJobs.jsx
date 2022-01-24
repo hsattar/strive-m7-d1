@@ -23,16 +23,16 @@ export default function CompanyJobs() {
 
     return (
         <Container maxWidth="xl" style={{ margin: '3rem 0'}}>
-      <h2>{companyName}</h2>
-      <Grid container spacing={2} style={{ marginTop: '0.5rem'}}>
-      {
-        data && data.map(job => (
-          <Grid item  key={job._id} xs={12} md={6}>
-            <SingleJob job={job} />
-          </Grid>
-        ))
-      }
-      </Grid>
-    </Container>
+            <h2>{companyName}</h2>
+            <Grid container spacing={2} style={{ marginTop: '0.5rem'}}>
+            {
+                data && data.map(job => (
+                <Grid item  key={job._id} xs={12} md={6}>
+                    <SingleJob job={job} />
+                </Grid>
+                ))
+            }
+            </Grid>
+        </Container>
     )
 }

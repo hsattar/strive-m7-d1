@@ -12,7 +12,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={ <Home /> } />
         <Route path="/jobs" element={ <JobResults /> } />
-        <Route path="/jobs:/jobId" element={ <JobDetails /> } />
+        <Route path="/jobs/:jobId" element={ <JobDetails /> } />
         <Route path="/company/:companyName" element={ <CompanyJobs /> } />
       </Routes>
     </Router>
