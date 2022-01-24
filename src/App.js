@@ -1,8 +1,16 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import JobResults from './components/JobResults'
+import Navbar from './components/Navbar'
 
 export default function App() {
   return (
-    <div className="App">
-      Hello
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={ <Home /> } />
+        <Route path="/jobs" element={ <JobResults /> } />
+      </Routes>
+    </Router>
   )
 }
