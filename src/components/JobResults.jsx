@@ -1,5 +1,5 @@
-import React from 'react';
+import React from 'react'
 
 export default function JobResults() {
-  return <div></div>;
+  return <div>Results</div>
 }
