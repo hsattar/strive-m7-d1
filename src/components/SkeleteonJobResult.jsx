@@ -3,24 +3,19 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import Skeleton from '@mui/material/Skeleton'
 
 export default function SkeletonJobResult() {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography variant="h5" component="h5">
-            <div class="skeleton skeleton-w75"></div>
-        </Typography>
-        <Typography sx={{ mb: 1.5, mt: 1 }} color="text.secondary" >
-            <div class="skeleton skeleton-w50"></div>
-        </Typography>
-        <Typography variant="body2">
-            <div class="skeleton skeleton-w25"></div>
-        </Typography>
+            <Skeleton animation="wave" width="75%" height={30} />
+            <Skeleton animation="wave" width="50%" />
+            <Skeleton animation="wave" width="25%" />
       </CardContent>
       <CardActions>
         <Button size="small">
-            <div class="skeleton skeleton-w75"></div>
+            <Skeleton animation="wave" width="75%" />
         </Button>
       </CardActions>
     </Card>
