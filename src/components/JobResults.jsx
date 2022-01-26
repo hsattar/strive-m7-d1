@@ -64,16 +64,7 @@ export default function JobResults({ searchQuery, handleChange, category, handle
           ))
         }
         </Grid>
-      {/* {
-        data && (
-          <div style={{ margin: '1rem 0', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <ButtonGroup disableElevation variant="contained">
-              { page === 1 ? <Button disabled>Prev</Button> : <Button onClick={() => setPage(page => page - 1)}>Prev</Button> }
-              { data?.length === limit ? <Button onClick={() => setPage(page => page + 1)}>Next</Button> : <Button disabled>Next</Button> }
-            </ButtonGroup>
-          </div>
-        )
-      } */}
+        {/* TODO: ADD INFINITE SCROLL */}
     </Container>
   )
 }

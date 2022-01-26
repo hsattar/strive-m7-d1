@@ -25,7 +25,7 @@ export default function BasicCard({ job }) {
         </Stack>
       </CardContent>
       <CardActions>
-        <Link to={`/jobs/${job._id}`} style={{ textDecoration: 'none'}}><Button size="small">View More</Button></Link>
+        <Link to={`/jobs/${job._id}`} style={{ textDecoration: 'none'}}><Button size="small">View Details</Button></Link>
       </CardActions>
     </Card>
   )
