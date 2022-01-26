@@ -9,22 +9,28 @@ export default function useFetch(params) {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
-    const fetchData = async () => {
-        try {
-            setLoading(true)
-            const response = await axios.get(`${BASE_URL}?${params}`)
-            setData(response.data.data)
-        } catch (error) {
-            setError(error)
-        } finally {
-            setLoading(false)
-        }
-    }
-
+    
     useEffect(() => {
+        const controller = new AbortController()
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const response = await axios.get(`${BASE_URL}?${params}`, {
+                    signal: controller.signal
+                })
+                setData(response.data.data)
+            } catch (error) {
+                if (error.message === 'canceled') return 
+                setError(error)
+            } finally {
+                setLoading(false)
+            }
+        }
         fetchData()
+
+        return () => controller.abort()
     }, [params])
     
-    return { data, loading, error, fetchData }
+    return { data, loading, error }
 
 }

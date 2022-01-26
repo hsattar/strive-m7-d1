@@ -3,24 +3,28 @@ import { initialState } from "../store"
 
 const mainReducer = (state = initialState, action) => {
     switch(action.type) {
-        case ACTIONS.ADD_TO_FAVOURITES:
-            return {
-                ...state,
-                jobs: {
-                    ...state.jobs,
-                    favourites: [...state.jobs.favourites, action.payload]
-                }
+        case ACTIONS.ADD_TO_FAVOURITES: return {
+            ...state,
+            jobs: {
+                ...state.jobs,
+                favourites: [...state.jobs.favourites, action.payload]
             }
-            case ACTIONS.REMOVE_FROM_FAVOURITES:
-            return {
-                ...state,
-                jobs: {
-                    ...state.jobs,
-                    favourites: state.jobs.favourites.filter(job => job._id !== action.payload)
-                }
-            } 
-        default: 
-            return state
+        }
+        case ACTIONS.REMOVE_FROM_FAVOURITES: return {
+            ...state,
+            jobs: {
+                ...state.jobs,
+                favourites: state.jobs.favourites.filter(job => job._id !== action.payload)
+            }
+        } 
+        case ACTIONS.UPDATE_SEARCH_QUERY: return {
+            ...state,
+            jobs: {
+                ...state.jobs,
+                searchQuery: action.payload
+            }
+        } 
+        default: return state
     }
 }
 

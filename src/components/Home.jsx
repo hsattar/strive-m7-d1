@@ -1,19 +1,17 @@
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
-import { useNavigate } from 'react-router-dom'
 import SearchBar from './SearchBar'
+import { Typography } from '@mui/material'
 
-export default function Home({ searchQuery, handleChange }) {
-    
-    const navigate = useNavigate()
-
+export default function Home() {
     return (
         <Container maxWidth="lg" style={{ minHeight: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Grid container>
                 <Grid item xs={12}>
-                <form onSubmit={() => navigate(`/jobs`)}>
-                    <SearchBar searchQuery={searchQuery} handleChange={handleChange} />
-                </form>
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "1rem" }} >
+                        <Typography variant='h2'>Strive Jobs</Typography>
+                    </div>
+                    <SearchBar />
                 </Grid>
             </Grid>
         </Container>

@@ -9,13 +9,8 @@ import Navbar from './components/Navbar'
 
 export default function App() {
 
-  const [searchQuery, setSearchQuery] = useState('')
   const [category, setCategory] = useState('')
   
-  const handleChange = query => {
-    setSearchQuery(query)
-  }
-
   const handleCategoryChange = newCategory => {
     setCategory(newCategory)
   }
@@ -24,10 +19,10 @@ export default function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={ <Home searchQuery={searchQuery} handleChange={handleChange} /> } />
-        <Route path="/jobs" element={ <JobResults searchQuery={searchQuery} handleChange={handleChange} category={category} handleCategoryChange={handleCategoryChange} /> } />
+        <Route path="/" element={ <Home /> } />
+        <Route path="/jobs" element={ <JobResults category={category} handleCategoryChange={handleCategoryChange} /> } />
         <Route path="/jobs/:jobId" element={ <JobDetails /> } />
-        <Route path="/company/:companyName" element={ <CompanyJobs searchQuery={searchQuery} handleChange={handleChange} /> } />
+        <Route path="/company/:companyName" element={ <CompanyJobs /> } />
         <Route path="/favourites" element={ <Favourites /> } />
       </Routes>
     </Router>
