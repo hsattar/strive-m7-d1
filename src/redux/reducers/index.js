@@ -24,6 +24,13 @@ const mainReducer = (state = initialState, action) => {
                 searchQuery: action.payload
             }
         } 
+        case ACTIONS.UPDATE_CATEGORY: return {
+            ...state,
+            jobs: {
+                ...state.jobs,
+                categories: action.payload
+            }
+        } 
         default: return state
     }
 }

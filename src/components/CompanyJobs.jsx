@@ -6,8 +6,7 @@ import SearchBar from './SearchBar'
 import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
 
-export default function CompanyJobs({ searchQuery, handleChange }) {
-
+export default function CompanyJobs() {
 
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -27,7 +26,7 @@ export default function CompanyJobs({ searchQuery, handleChange }) {
         <Container maxWidth="xl" style={{ margin: '3rem 0'}}>
             <Grid container>
                 <Grid item xs={12}>
-                    <SearchBar searchQuery={searchQuery} handleChange={handleChange} />
+                    <SearchBar />
                 </Grid>
             </Grid>
             <Typography variant="h4" style={{ marginTop: '1rem' }}>{companyName}</Typography>

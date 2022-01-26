@@ -7,12 +7,15 @@ import SkeletonJobResult from './SkeleteonJobResult'
 import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
 import { connect } from 'react-redux'
+import { updateSearchQueryAction } from '../redux/actions'
 
 const mapStateToProps = state => ({
-  favouriteJobs: state.jobs.favourites
+  searchQuery: state.jobs.searchQuery,
+  favouriteJobs: state.jobs.favourites,
+  categories: state.jobs.categories[0]
 })
 
-function JobResults({ searchQuery, handleChange, category, handleCategoryChange }) {
+function JobResults({ searchQuery, categories }) {
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -23,7 +26,7 @@ function JobResults({ searchQuery, handleChange, category, handleCategoryChange 
 
   const navigate = useNavigate()
 
-  const params = `search=${searchQuery}&category=${category}&limit=${limit}&skip=${skip}`
+  const params = `search=${searchQuery}&category=${categories || ''}&limit=${limit}&skip=${skip}`
 
   const { data: jobData, loading: jobLoading, error: jobError, fetchData } = useFetch(params)
 
@@ -42,15 +45,14 @@ function JobResults({ searchQuery, handleChange, category, handleCategoryChange 
     <Container maxWidth="xl" style={{ margin: '3rem 0'}}>
       <Grid container>
           <Grid item xs={12}>
-            <form onSubmit={() => navigate('/jobs')}>
               <Stack spacing={3}>
-                <SearchBar searchQuery={searchQuery} handleChange={handleChange} />
-                <JobFilters category={category} changeCategory={handleCategoryChange} />
+                <SearchBar />
+                <JobFilters />
               </Stack>
-            </form>
           </Grid>
       </Grid>
-      <Typography variant="h4" style={{ marginTop: "1rem" }} >Showing results for {searchQuery}</Typography>
+      { (!loading && (data && data.length > 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }} >Showing results for {searchQuery}</Typography> }
+      { (!loading && (data && data.length === 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }}>No Jobs Found</Typography> }
       <Grid container spacing={2} style={{ marginTop: '0.5rem'}}>
         {
           loading && [1, 2, 3, 4, 5, 6].map(num => (

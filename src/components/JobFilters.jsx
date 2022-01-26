@@ -2,10 +2,17 @@ import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { updateCategoryAction } from '../redux/actions'
 
-export default function JobFilters({ category, changeCategory }) {
+const mapDispatchToProps = dispatch => ({
+    updateCategory: categories => dispatch(updateCategoryAction(categories))
+})
+
+function JobFilters({ updateCategory }) {
 
     const [data, setData] = useState([]) 
+    const [categoryValue, setCategoryValue] = useState([])
     const { REACT_APP_BASE_URL: BASE_URL }= process.env
 
     const fetchCategories = async () => {
@@ -26,8 +33,18 @@ export default function JobFilters({ category, changeCategory }) {
             multiple
             disablePortal
             options={data}
-            sx={{ width: "100%" }}  
-            renderInput={params => <TextField {...params} label="Job Categories" value={category} onChange={e => changeCategory(e.target.value)} />}
+            sx={{ width: "100%" }}
+            value={categoryValue}
+            onChange={(event, value) => {
+                setCategoryValue(value)
+                updateCategory(value)
+            }}  
+            renderInput={params => <TextField
+                {...params}
+                label="Job Categories"
+            />}
         />
     )
 }
+
+export default connect(state => ({}), mapDispatchToProps)(JobFilters)

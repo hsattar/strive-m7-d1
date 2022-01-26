@@ -4,6 +4,7 @@ import mainReducer from "./reducers"
 export const initialState = {
     jobs: {
         searchQuery: '',
+        categories: [],
         favourites: []
     }
 }
