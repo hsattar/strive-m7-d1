@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import axios from 'axios'
 
-export default function JobFilters({ category, handleCategory }) {
+export default function JobFilters({ category, changeCategory }) {
 
     const [data, setData] = useState([]) 
     const { REACT_APP_BASE_URL: BASE_URL }= process.env
@@ -27,7 +27,7 @@ export default function JobFilters({ category, handleCategory }) {
             disablePortal
             options={data}
             sx={{ width: "100%" }}  
-            renderInput={params => <TextField {...params} label="Job Categories" value={category} handleCategory={e => e.target.value} />}
+            renderInput={params => <TextField {...params} label="Job Categories" value={category} onChange={e => changeCategory(e.target.value)} />}
         />
     )
 }

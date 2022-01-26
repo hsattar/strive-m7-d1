@@ -12,16 +12,26 @@ import { connect } from 'react-redux'
 import { addToFavouritesAction, removeFromFavouritesAction } from '../redux/actions'
 import { useState } from 'react' 
 
+const mapStateToProps = state => ({
+  favouriteJobsId: state.jobs.favourites.map(job => job._id)
+})
+
 const mapDispatchToProps = dispatch => ({
   addToFavourites: job => dispatch(addToFavouritesAction(job)),
   removeFromFavourites: jobId => dispatch(removeFromFavouritesAction(jobId))
 })
 
-function SingleJob({ job, page, addToFavourites, removeFromFavourites }) {
+function SingleJob({ job, page, addToFavourites, removeFromFavourites, favouriteJobsId }) {
     
     const publishedDate = job.publication_date.split('T')[0]
     const diiferenceInWeeks = differenceInWeeks(new Date(), parseISO(publishedDate))
     const [heartClicked, setHeartClicked] = useState(false)
+
+    // if (favouriteJobsId.length > 0) {
+    //   if (favouriteJobsId.includes(job._id)) {
+    //     setHeartClicked(true)
+    //   }
+    // }
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -61,4 +71,4 @@ function SingleJob({ job, page, addToFavourites, removeFromFavourites }) {
   )
 }
 
-export default connect(state => ({}), mapDispatchToProps)(SingleJob)
+export default connect(mapStateToProps, mapDispatchToProps)(SingleJob)

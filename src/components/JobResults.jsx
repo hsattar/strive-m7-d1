@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
   favouriteJobs: state.jobs.favourites
 })
 
-function JobResults({ searchQuery, handleChange, category, handleCategory }) {
+function JobResults({ searchQuery, handleChange, category, handleCategoryChange }) {
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -23,7 +23,7 @@ function JobResults({ searchQuery, handleChange, category, handleCategory }) {
 
   const navigate = useNavigate()
 
-  const params = searchQuery ? `query=${searchQuery}&limit=${limit}&skip=${skip}` : `limit=${limit}&skip=${skip}`
+  const params = `search=${searchQuery}&category=${category}&limit=${limit}&skip=${skip}`
 
   const { data: jobData, loading: jobLoading, error: jobError, fetchData } = useFetch(params)
 
@@ -45,7 +45,7 @@ function JobResults({ searchQuery, handleChange, category, handleCategory }) {
             <form onSubmit={() => navigate('/jobs')}>
               <Stack spacing={3}>
                 <SearchBar searchQuery={searchQuery} handleChange={handleChange} />
-                <JobFilters />
+                <JobFilters category={category} changeCategory={handleCategoryChange} />
               </Stack>
             </form>
           </Grid>

@@ -16,8 +16,8 @@ export default function App() {
     setSearchQuery(query)
   }
 
-  const handleCategory = category => {
-    setCategory(category)
+  const handleCategoryChange = newCategory => {
+    setCategory(newCategory)
   }
 
   return (
@@ -25,7 +25,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={ <Home searchQuery={searchQuery} handleChange={handleChange} /> } />
-        <Route path="/jobs" element={ <JobResults searchQuery={searchQuery} handleChange={handleChange} category={category} handleCategory={handleCategory} /> } />
+        <Route path="/jobs" element={ <JobResults searchQuery={searchQuery} handleChange={handleChange} category={category} handleCategoryChange={handleCategoryChange} /> } />
         <Route path="/jobs/:jobId" element={ <JobDetails /> } />
         <Route path="/company/:companyName" element={ <CompanyJobs searchQuery={searchQuery} handleChange={handleChange} /> } />
         <Route path="/favourites" element={ <Favourites /> } />
