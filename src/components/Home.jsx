@@ -11,7 +11,7 @@ export default function Home({ searchQuery, handleChange }) {
         <Container maxWidth="lg" style={{ minHeight: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Grid container>
                 <Grid item xs={12}>
-                <form onSubmit={() => navigate(`/jobs?query=${searchQuery}`)}>
+                <form onSubmit={() => navigate(`/jobs`)}>
                     <SearchBar searchQuery={searchQuery} handleChange={handleChange} />
                 </form>
                 </Grid>
