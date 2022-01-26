@@ -6,6 +6,11 @@ import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
 import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
+import { connect } from 'react-redux'
+
+const mapStateToProps = state => ({
+  favouriteJobs: state.jobs.favourites
+})
 
 function JobResults({ searchQuery, handleChange, category, handleCategory }) {
 
@@ -68,4 +73,4 @@ function JobResults({ searchQuery, handleChange, category, handleCategory }) {
 }
 
 
-export default JobResults
+export default connect(mapStateToProps)(JobResults)

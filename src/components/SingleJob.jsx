@@ -9,27 +9,38 @@ import { Link } from 'react-router-dom'
 import { differenceInWeeks, parseISO } from 'date-fns'
 import { BsHeart, BsHeartFill } from "react-icons/bs"
 import { connect } from 'react-redux'
-import { addToFavouritesAction } from '../redux/actions'
-
-const mapStateToProps = state => ({
-
-})
+import { addToFavouritesAction, removeFromFavouritesAction } from '../redux/actions'
+import { useState } from 'react' 
 
 const mapDispatchToProps = dispatch => ({
-  addToFavourites: job => dispatch(addToFavouritesAction(job))
+  addToFavourites: job => dispatch(addToFavouritesAction(job)),
+  removeFromFavourites: jobId => dispatch(removeFromFavouritesAction(jobId))
 })
 
-function SingleJob({ job, page, addToFavourites }) {
+function SingleJob({ job, page, addToFavourites, removeFromFavourites }) {
     
     const publishedDate = job.publication_date.split('T')[0]
     const diiferenceInWeeks = differenceInWeeks(new Date(), parseISO(publishedDate))
+    const [heartClicked, setHeartClicked] = useState(false)
 
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
           <Typography variant="h5" noWrap >{job.title}</Typography>
-          <BsHeart onClick={() => addToFavourites(job)}/>
+          {  page === 'favourites' ? <BsHeartFill onClick={() => removeFromFavourites(job._id)}/> : 
+          <>
+          { heartClicked ? 
+            <BsHeartFill onClick={() => {
+              removeFromFavourites(job._id)
+              setHeartClicked(false)
+            }}/> : 
+            <BsHeart onClick={() => {
+              addToFavourites(job)
+              setHeartClicked(true)
+            }}/> }
+          </>
+          }
         </Stack>
         <Link to={`/company/${job.company_name}`} style={{ textDecoration: 'none'}}><Typography sx={{ mb: 1, mt: 1 }} color="text.secondary" >{job.company_name}</Typography></Link>
         <Typography variant="body2">{job.candidate_required_location} - {diiferenceInWeeks} weeks ago</Typography>
@@ -43,12 +54,11 @@ function SingleJob({ job, page, addToFavourites }) {
           <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={3}>
             <Link to={`/jobs/${job._id}`} style={{ textDecoration: 'none'}}><Button size="small">View Details</Button></Link>
           </Stack> :
-            <div dangerouslySetInnerHTML={{ __html: job.description }}></div>
+          <div dangerouslySetInnerHTML={{ __html: job.description }}></div>
         }
       </CardActions>
     </Card>
   )
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleJob)
+export default connect(state => ({}), mapDispatchToProps)(SingleJob)

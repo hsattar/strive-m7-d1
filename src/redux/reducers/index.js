@@ -10,6 +10,14 @@ const mainReducer = (state = initialState, action) => {
                     ...state.jobs,
                     favourites: [...state.jobs.favourites, action.payload]
                 }
+            }
+            case ACTIONS.REMOVE_FROM_FAVOURITES:
+            return {
+                ...state,
+                jobs: {
+                    ...state.jobs,
+                    favourites: state.jobs.favourites.filter(job => job._id !== action.payload)
+                }
             } 
         default: 
             return state
