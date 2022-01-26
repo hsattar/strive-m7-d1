@@ -4,12 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
-import ButtonGroup from '@mui/material/ButtonGroup'
-import Button from '@mui/material/Button'
 import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
 
-export default function JobResults({ searchQuery, handleChange, category, handleCategory }) {
+function JobResults({ searchQuery, handleChange, category, handleCategory }) {
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -68,3 +66,6 @@ export default function JobResults({ searchQuery, handleChange, category, handle
     </Container>
   )
 }
+
+
+export default JobResults

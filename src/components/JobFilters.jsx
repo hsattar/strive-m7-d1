@@ -23,9 +23,10 @@ export default function JobFilters({ category, handleCategory }) {
 
     return (
         <Autocomplete
+            multiple
             disablePortal
             options={data}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%" }}  
             renderInput={params => <TextField {...params} label="Job Categories" value={category} handleCategory={e => e.target.value} />}
         />
     )
