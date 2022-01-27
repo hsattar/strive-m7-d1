@@ -11,7 +11,7 @@ import { updateSearchQueryAction } from '../redux/actions'
 
 const mapStateToProps = state => ({
   searchQuery: state.jobs.searchQuery,
-  favouriteJobs: state.jobs.favourites,
+  favouriteJobs: state.favourites.jobs,
   categories: state.jobs.categories[0]
 })
 

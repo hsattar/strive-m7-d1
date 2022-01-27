@@ -3,7 +3,7 @@ import SingleJob from './SingleJob'
 import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
-  favouriteJobs: state.jobs.favourites
+  favouriteJobs: state.favourites.jobs
 })
 
 function Favourites({ favouriteJobs }) {

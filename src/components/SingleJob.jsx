@@ -13,7 +13,7 @@ import { addToFavouritesAction, removeFromFavouritesAction } from '../redux/acti
 import { useState } from 'react' 
 
 const mapStateToProps = state => ({
-  favouriteJobsId: state.jobs.favourites.map(job => job._id)
+  favouriteJobsId: state.favourites.jobs.map(job => job._id)
 })
 
 const mapDispatchToProps = dispatch => ({
