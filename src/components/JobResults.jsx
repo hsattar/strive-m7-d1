@@ -1,40 +1,41 @@
 import { Container, Grid, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useFetch from '../hooks/useFetch'
 import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
 import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
 import { connect } from 'react-redux'
-import { updateSearchQueryAction } from '../redux/actions'
+import { fetchJobsAction, startLoadingAction, updateSearchQueryAction } from '../redux/actions'
 
 const mapStateToProps = state => ({
   searchQuery: state.jobs.searchQuery,
   favouriteJobs: state.favourites.jobs,
-  categories: state.jobs.categories[0]
+  categories: state.jobs.categories[0],
+  jobsData: state.jobs.data,
+  fetchLoading: state.jobs.fetchLoading,
+  fetchError: state.jobs.fetchError
 })
 
-function JobResults({ searchQuery, categories }) {
+const mapDispatchToProps = dispatch => ({
+  fetchData: params => dispatch(fetchJobsAction(params)),
+  startLoading: () => dispatch(startLoadingAction)
+})
 
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const [limit, setLimit] = useState(24)
+function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading, fetchError, startLoading }) {
+
   const [skip, setSkip] = useState(0)
   const [page, setPage] = useState(1)
 
+  const limit = 24
   const navigate = useNavigate()
 
   const params = `search=${searchQuery}&category=${categories || ''}&limit=${limit}&skip=${skip}`
 
-  const { data: jobData, loading: jobLoading, error: jobError, fetchData } = useFetch(params)
-
   useEffect(() => {
-    setData(jobData)
-    setLoading(jobLoading)
-    setError(jobError)
-  }, [jobData, jobLoading, jobError])
+    startLoading()
+    fetchData(params)
+  }, [])
 
   useEffect(() => {
     const skipQty = limit * (page - 1)
@@ -51,18 +52,18 @@ function JobResults({ searchQuery, categories }) {
               </Stack>
           </Grid>
       </Grid>
-      { (!loading && (data && data.length > 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }} >Showing results for {searchQuery}</Typography> }
-      { (!loading && (data && data.length === 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }}>No Jobs Found</Typography> }
+      { (!fetchLoading && (jobsData && jobsData.length > 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }} >Showing results for {searchQuery}</Typography> }
+      { (!fetchLoading && (jobsData && jobsData.length === 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }}>No Jobs Found</Typography> }
       <Grid container spacing={2} style={{ marginTop: '0.5rem'}}>
         {
-          loading && [1, 2, 3, 4, 5, 6].map(num => (
+          fetchLoading && [1, 2, 3, 4, 5, 6].map(num => (
             <Grid item  key={num} xs={12} md={6}>
               <SkeletonJobResult />
             </Grid>
           ))
         }
         {
-          data && data.map(job => (
+          jobsData && jobsData.map(job => (
             <Grid item  key={job._id} xs={12} md={6}>
               <SingleJob job={job} />
             </Grid>
@@ -75,4 +76,4 @@ function JobResults({ searchQuery, categories }) {
 }
 
 
-export default connect(mapStateToProps)(JobResults)
+export default connect(mapStateToProps, mapDispatchToProps)(JobResults)
