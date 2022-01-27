@@ -13,13 +13,14 @@ const jobReducer = (state = initialState.jobs, action) => {
         }
         case ACTIONS.START_LOADING: return {
             ...state,
-            fetchLoading: true
+            fetchLoading: true,
+            data: []
         }
-        case ACTIONS.ADD_JOBS_FROM_API: return {
+        case ACTIONS.ADD_DATA_FROM_API: return {
             ...state,
             data: action.payload.data,
             fetchLoading: action.payload.loading,
-            fetchErrors: action.payload.error
+            fetchError: action.payload.error
         }
         default: return state
     }

@@ -5,7 +5,7 @@ export const ACTIONS = {
     REMOVE_FROM_FAVOURITES: 'REMOVE_FROM_FAVOURITES',
     UPDATE_SEARCH_QUERY: 'UPDATE_SEARCH_QUERY',
     UPDATE_CATEGORY: 'UPDATE_CATEGORY',
-    ADD_JOBS_FROM_API: 'ADD_JOBS_FROM_API',
+    ADD_DATA_FROM_API: 'ADD_DATA_FROM_API',
     START_LOADING: 'START_LOADING'  
 }
 
@@ -30,10 +30,10 @@ export const updateCategoryAction = categories => ({
 })
 
 export const startLoadingAction = () => ({
-    type: ACTIONS.START_LOADING,
+    type: ACTIONS.START_LOADING
 })
 
-export const fetchJobsAction = params => async dispatch => {
+export const fetchDataAction = params => async dispatch => {
     const { REACT_APP_BASE_URL: BASE_URL } = process.env
     const controller = new AbortController()
     try {
@@ -41,7 +41,7 @@ export const fetchJobsAction = params => async dispatch => {
             signal: controller.signal
         })
         dispatch({
-            type: ACTIONS.ADD_JOBS_FROM_API,
+            type: ACTIONS.ADD_DATA_FROM_API,
             payload: {
                 data: response.data.data,
                 loading: false,
@@ -51,7 +51,7 @@ export const fetchJobsAction = params => async dispatch => {
     } catch (error) {
         if (error.message === 'canceled') return
         dispatch({
-            type: ACTIONS.ADD_JOBS_FROM_API,
+            type: ACTIONS.ADD_DATA_FROM_API,
             payload: {
                 data: [],
                 loading: false,

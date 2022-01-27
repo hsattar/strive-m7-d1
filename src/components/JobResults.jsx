@@ -6,7 +6,7 @@ import SkeletonJobResult from './SkeleteonJobResult'
 import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
 import { connect } from 'react-redux'
-import { fetchJobsAction, startLoadingAction, updateSearchQueryAction } from '../redux/actions'
+import { fetchDataAction, startLoadingAction, updateSearchQueryAction } from '../redux/actions'
 
 const mapStateToProps = state => ({
   searchQuery: state.jobs.searchQuery,
@@ -18,8 +18,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: params => dispatch(fetchJobsAction(params)),
-  startLoading: () => dispatch(startLoadingAction)
+  fetchData: params => dispatch(fetchDataAction(params)),
+  startLoading: () => dispatch(startLoadingAction())
 })
 
 function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading, fetchError, startLoading }) {
@@ -35,7 +35,7 @@ function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading
   useEffect(() => {
     startLoading()
     fetchData(params)
-  }, [])
+  }, [searchQuery, categories])
 
   useEffect(() => {
     const skipQty = limit * (page - 1)
