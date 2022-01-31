@@ -45,17 +45,20 @@ export const fetchDataAction = params => async dispatch => {
             payload: {
                 data: response.data.data,
                 loading: false,
-                error: false
+                error: false,
+                moreData: response.data.data.length === 24
             }
         })
     } catch (error) {
         if (error.message === 'canceled') return
+        console.log(error)
         dispatch({
             type: ACTIONS.ADD_DATA_FROM_API,
             payload: {
                 data: [],
                 loading: false,
-                error: true
+                error: true,
+                moreData: false
             }
         })
     }

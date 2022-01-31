@@ -11,7 +11,8 @@ export const initialState = {
         categories: [],
         data: [],
         fetchLoading: false,
-        fetchError: false
+        fetchError: false,
+        moreDataToFetch: false
     },
     favourites: {
         jobs: []

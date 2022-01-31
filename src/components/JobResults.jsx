@@ -1,3 +1,4 @@
+import { useRef, useCallback } from 'react'
 import { Container, Grid, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +15,8 @@ const mapStateToProps = state => ({
   categories: state.jobs.categories[0],
   jobsData: state.jobs.data,
   fetchLoading: state.jobs.fetchLoading,
-  fetchError: state.jobs.fetchError
+  fetchError: state.jobs.fetchError,
+  hasMoredata: state.jobs.moreDataToFetch
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -22,24 +24,35 @@ const mapDispatchToProps = dispatch => ({
   startLoading: () => dispatch(startLoadingAction())
 })
 
-function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading, fetchError, startLoading }) {
+function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading, fetchError, startLoading, hasMoredata }) {
 
-  const [skip, setSkip] = useState(0)
+  const [skipQty, setSkipQty] = useState(0)
   const [page, setPage] = useState(1)
 
   const limit = 24
   const navigate = useNavigate()
 
-  const params = `search=${searchQuery}&category=${categories || ''}&limit=${limit}&skip=${skip}`
+  const observer = useRef()
+  const jobNearEndRef = useCallback(node => {
+    if (fetchLoading) return 
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMoredata) {
+        setPage(page => page + 1)
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [fetchLoading, hasMoredata])
+
+  const params = `search=${searchQuery}&category=${categories || ''}&limit=${limit}&skip=${skipQty}`
 
   useEffect(() => {
     startLoading()
     fetchData(params)
-  }, [searchQuery, categories])
+  }, [searchQuery, categories, skipQty])
 
   useEffect(() => {
-    const skipQty = limit * (page - 1)
-    setSkip(skipQty)
+    setSkipQty(limit * (page - 1))
   }, [page])
 
   return (
@@ -56,21 +69,30 @@ function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading
       { (!fetchLoading && (jobsData && jobsData.length === 0)) && <Typography variant="h4" style={{ marginTop: "1rem" }}>No Jobs Found</Typography> }
       <Grid container spacing={2} style={{ marginTop: '0.5rem'}}>
         {
-          fetchLoading && [1, 2, 3, 4, 5, 6].map(num => (
+          (fetchLoading && page === 1) && [1, 2, 3, 4, 5, 6].map(num => (
             <Grid item  key={num} xs={12} md={6}>
               <SkeletonJobResult />
             </Grid>
           ))
         }
         {
-          jobsData && jobsData.map(job => (
-            <Grid item  key={job._id} xs={12} md={6}>
-              <SingleJob job={job} />
-            </Grid>
-          ))
+          jobsData && jobsData.map((job, idx) => {
+            if (idx === 16) {
+              return (
+                <Grid item ref={jobNearEndRef}  key={job._id} xs={12} md={6}>
+                  <SingleJob job={job} />
+                </Grid>
+            )
+            } else {
+              return (
+                <Grid item  key={job._id} xs={12} md={6}>
+                 <SingleJob job={job} />
+                </Grid>
+            )
+          }
+          })
         }
         </Grid>
-        {/* TODO: ADD INFINITE SCROLL */}
     </Container>
   )
 }
