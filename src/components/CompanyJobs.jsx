@@ -1,31 +1,25 @@
 import { Container, Grid, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchDataAction, startLoadingAction } from '../redux/actions'
 import SearchBar from './SearchBar'
 import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
 
-const mapStateToProps = state => ({
-    companies: state.jobs.data,
-    fetchLoading: state.jobs.fetchLoading,
-    fetchError: state.jobs.fetchError
-})
+function CompanyJobs() {
 
-const mapDispatchToProps = dispatch => ({
-    startLoading: () => dispatch(startLoadingAction()),
-    fetchData: params => dispatch(fetchDataAction(params))
-})
-
-function CompanyJobs({ startLoading, fetchData, companies, fetchLoading, fetchError }) {
+    const dispatch = useDispatch()
+    const companies = useSelector(state => state.jobs.data)
+    const fetchLoading = useSelector(state => state.jobs.fetchLoading)
+    const fetchError = useSelector(state => state.jobs.fetchError)
 
     const { companyName } = useParams()
     const params = `company=${companyName}&limit=24`
 
     useEffect(() => {
-        startLoading()
-        fetchData(params)
+        dispatch(startLoadingAction())
+        dispatch(fetchDataAction(params))
     }, [params])
 
     return (
@@ -56,4 +50,4 @@ function CompanyJobs({ startLoading, fetchData, companies, fetchLoading, fetchEr
     )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompanyJobs)
+export default CompanyJobs

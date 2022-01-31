@@ -6,25 +6,19 @@ import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
 import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { fetchDataAction, startLoadingAction, updateSearchQueryAction } from '../redux/actions'
 
-const mapStateToProps = state => ({
-  searchQuery: state.jobs.searchQuery,
-  favouriteJobs: state.favourites.jobs,
-  categories: state.jobs.categories[0],
-  jobsData: state.jobs.data,
-  fetchLoading: state.jobs.fetchLoading,
-  fetchError: state.jobs.fetchError,
-  hasMoredata: state.jobs.moreDataToFetch
-})
+export default function JobResults() {
 
-const mapDispatchToProps = dispatch => ({
-  fetchData: params => dispatch(fetchDataAction(params)),
-  startLoading: () => dispatch(startLoadingAction())
-})
-
-function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading, fetchError, startLoading, hasMoredata }) {
+  const dispatch = useDispatch()
+  const searchQuery = useSelector(state => state.jobs.searchQuery)
+  const favouriteJobs = useSelector(state => state.favourites.jobs)
+  const categories = useSelector(state => state.jobs.categories[0])
+  const jobsData = useSelector(state => state.jobs.data)
+  const fetchLoading = useSelector(state => state.jobs.fetchLoading)
+  const fetchError = useSelector(state => state.jobs.fetchError)
+  const hasMoredata = useSelector(state => state.jobs.moreDataToFetch)
 
   const [skipQty, setSkipQty] = useState(0)
   const [page, setPage] = useState(1)
@@ -47,8 +41,8 @@ function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading
   const params = `search=${searchQuery}&category=${categories || ''}&limit=${limit}&skip=${skipQty}`
 
   useEffect(() => {
-    startLoading()
-    fetchData(params)
+    dispatch(startLoadingAction())
+    dispatch(fetchDataAction(params))
   }, [searchQuery, categories, skipQty])
 
   useEffect(() => {
@@ -96,6 +90,3 @@ function JobResults({ searchQuery, categories, fetchData, jobsData, fetchLoading
     </Container>
   )
 }
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(JobResults)

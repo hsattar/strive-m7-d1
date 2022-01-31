@@ -1,12 +1,10 @@
 import { Container, Grid } from '@mui/material'
 import SingleJob from './SingleJob'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
-const mapStateToProps = state => ({
-  favouriteJobs: state.favourites.jobs
-})
+export default function Favourites() {
 
-function Favourites({ favouriteJobs }) {
+    const favouriteJobs = useSelector(state => state.favourites.jobs)
 
     return (
         <Container maxWidth="xl" style={{ margin: '3rem 0'}}>
@@ -18,5 +16,3 @@ function Favourites({ favouriteJobs }) {
         </Container>
     )
 }
-
-export default connect(mapStateToProps)(Favourites)

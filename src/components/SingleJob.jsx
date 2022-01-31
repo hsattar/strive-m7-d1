@@ -8,21 +8,15 @@ import Typography from '@mui/material/Typography'
 import { Link } from 'react-router-dom'
 import { differenceInWeeks, parseISO } from 'date-fns'
 import { BsHeart, BsHeartFill } from "react-icons/bs"
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { addToFavouritesAction, removeFromFavouritesAction } from '../redux/actions'
 import { useState } from 'react' 
 
-const mapStateToProps = state => ({
-  favouriteJobsId: state.favourites.jobs.map(job => job._id)
-})
-
-const mapDispatchToProps = dispatch => ({
-  addToFavourites: job => dispatch(addToFavouritesAction(job)),
-  removeFromFavourites: jobId => dispatch(removeFromFavouritesAction(jobId))
-})
-
-function SingleJob({ job, page, addToFavourites, removeFromFavourites, favouriteJobsId }) {
+export default function SingleJob({ job, page }) {
     
+    const dispatch = useDispatch()
+    const favouriteJobsId = useSelector(state => state.favourites.jobs.map(job => job._id))
+
     const publishedDate = job.publication_date.split('T')[0]
     const diiferenceInWeeks = differenceInWeeks(new Date(), parseISO(publishedDate))
     const [heartClicked, setHeartClicked] = useState(false)
@@ -38,15 +32,15 @@ function SingleJob({ job, page, addToFavourites, removeFromFavourites, favourite
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
           <Typography variant="h5" noWrap >{job.title}</Typography>
-          {  page === 'favourites' ? <BsHeartFill onClick={() => removeFromFavourites(job._id)}/> : 
+          {  page === 'favourites' ? <BsHeartFill onClick={() => dispatch(removeFromFavouritesAction(job._id))}/> : 
           <>
           { heartClicked ? 
             <BsHeartFill onClick={() => {
-              removeFromFavourites(job._id)
+              dispatch(removeFromFavouritesAction(job._id))
               setHeartClicked(false)
             }}/> : 
             <BsHeart onClick={() => {
-              addToFavourites(job)
+              dispatch(addToFavouritesAction(job))
               setHeartClicked(true)
             }}/> }
           </>
@@ -70,5 +64,3 @@ function SingleJob({ job, page, addToFavourites, removeFromFavourites, favourite
     </Card>
   )
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleJob)

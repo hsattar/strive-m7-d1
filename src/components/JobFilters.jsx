@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import axios from 'axios'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { updateCategoryAction } from '../redux/actions'
 
-const mapDispatchToProps = dispatch => ({
-    updateCategory: categories => dispatch(updateCategoryAction(categories))
-})
+export default function JobFilters() {
 
-function JobFilters({ updateCategory }) {
+    const dispatch = useDispatch()
 
     const [data, setData] = useState([]) 
     const [categoryValue, setCategoryValue] = useState([])
@@ -37,7 +35,7 @@ function JobFilters({ updateCategory }) {
             value={categoryValue}
             onChange={(event, value) => {
                 setCategoryValue(value)
-                updateCategory(value)
+                dispatch(updateCategoryAction(value))
             }}  
             renderInput={params => <TextField
                 {...params}
@@ -46,5 +44,3 @@ function JobFilters({ updateCategory }) {
         />
     )
 }
-
-export default connect(state => ({}), mapDispatchToProps)(JobFilters)
