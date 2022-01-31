@@ -2,6 +2,9 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux"
 import favouriteReducer from "./reducers/favouritesReducer"
 import jobReducer from "./reducers/jobReducer"
 import thunk from 'redux-thunk'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { encryptTransform } from 'redux-persist-transform-encrypt'
 
 const composeSafely = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -19,11 +22,24 @@ export const initialState = {
     }
 }
 
+const persistConfig = {
+    key: 'root',
+    storage,
+    transforms: [
+        encryptTransform({
+            secretKey: process.env.REACT_APP_SECRET_KEY,
+            onError: err => console.log(err)
+        })
+    ]
+  }
+
 const rootReducer = combineReducers({
     jobs: jobReducer,
     favourites: favouriteReducer
 })
 
-const storeConfig = createStore(rootReducer, initialState, composeSafely(applyMiddleware(thunk)))
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export default storeConfig
+export const storeConfig = createStore(persistedReducer, initialState, composeSafely(applyMiddleware(thunk)))
+
+export const persistor = persistStore(storeConfig)
