@@ -1,10 +1,11 @@
 import { Container, Grid, Typography } from '@mui/material'
 import SingleJob from './SingleJob'
-import { connect, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { IReduxStore } from '../types/ReduxStore'
 
 export default function Favourites() {
 
-    const favouriteJobs = useSelector(state => state.favourites.jobs)
+    const favouriteJobs = useSelector((state: IReduxStore) => state.favourites.jobs)
 
     return (
         <Container maxWidth="xl" style={{ margin: '3rem 0'}}>

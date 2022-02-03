@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchDataAction, startLoadingAction } from '../redux/actions'
+import { IReduxStore } from '../types/ReduxStore'
 import SearchBar from './SearchBar'
 import SingleJob from './SingleJob'
 import SkeletonJobResult from './SkeleteonJobResult'
@@ -10,9 +11,9 @@ import SkeletonJobResult from './SkeleteonJobResult'
 function CompanyJobs() {
 
     const dispatch = useDispatch()
-    const companies = useSelector(state => state.jobs.data)
-    const fetchLoading = useSelector(state => state.jobs.fetchLoading)
-    const fetchError = useSelector(state => state.jobs.fetchError)
+    const companies = useSelector((state: IReduxStore) => state.jobs.data)
+    const fetchLoading = useSelector((state: IReduxStore) => state.jobs.fetchLoading)
+    const fetchError = useSelector((state: IReduxStore) => state.jobs.fetchError)
 
     const { companyName } = useParams()
     const params = `company=${companyName}&limit=24`

@@ -11,11 +11,17 @@ import { BsHeart, BsHeartFill } from "react-icons/bs"
 import { useSelector, useDispatch } from 'react-redux'
 import { addToFavouritesAction, removeFromFavouritesAction } from '../redux/actions'
 import { useState } from 'react' 
+import { IJob, IReduxStore } from '../types/ReduxStore'
 
-export default function SingleJob({ job, page }) {
+interface Props {
+  job: IJob
+  page?: string
+}
+
+export default function SingleJob({ job, page }: Props) {
     
     const dispatch = useDispatch()
-    const favouriteJobsId = useSelector(state => state.favourites.jobs.map(job => job._id))
+    const favouriteJobsId = useSelector((state: IReduxStore) => state.favourites.jobs.map(job => job._id))
 
     const publishedDate = job.publication_date.split('T')[0]
     const diiferenceInWeeks = differenceInWeeks(new Date(), parseISO(publishedDate))
@@ -50,7 +56,7 @@ export default function SingleJob({ job, page }) {
         <Typography variant="body2">{job.candidate_required_location} - {diiferenceInWeeks} weeks ago</Typography>
         <Stack direction="row" spacing={1} style={{ marginTop: ".5rem", marginLeft: "-.25rem"}} >
             <Chip label={job.category} />
-            { job.type && <Chip label={job.type} /> }
+            { job.job_type && <Chip label={job.job_type} /> }
         </Stack>
       </CardContent>
       <CardActions>

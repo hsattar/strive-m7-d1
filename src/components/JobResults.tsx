@@ -8,17 +8,18 @@ import SearchBar from './SearchBar'
 import JobFilters from './JobFilters'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchDataAction, startLoadingAction, updateSearchQueryAction } from '../redux/actions'
+import { IReduxStore } from '../types/ReduxStore'
 
 export default function JobResults() {
 
   const dispatch = useDispatch()
-  const searchQuery = useSelector(state => state.jobs.searchQuery)
-  const favouriteJobs = useSelector(state => state.favourites.jobs)
-  const categories = useSelector(state => state.jobs.categories[0])
-  const jobsData = useSelector(state => state.jobs.data)
-  const fetchLoading = useSelector(state => state.jobs.fetchLoading)
-  const fetchError = useSelector(state => state.jobs.fetchError)
-  const hasMoredata = useSelector(state => state.jobs.moreDataToFetch)
+  const searchQuery = useSelector((state: IReduxStore) => state.jobs.searchQuery)
+  const favouriteJobs = useSelector((state: IReduxStore) => state.favourites.jobs)
+  const categories = useSelector((state: IReduxStore) => state.jobs.categories[0])
+  const jobsData = useSelector((state: IReduxStore) => state.jobs.data)
+  const fetchLoading = useSelector((state: IReduxStore) => state.jobs.fetchLoading)
+  const fetchError = useSelector((state: IReduxStore) => state.jobs.fetchError)
+  const hasMoredata = useSelector((state: IReduxStore) => state.jobs.moreDataToFetch)
 
   const [skipQty, setSkipQty] = useState(0)
   const [page, setPage] = useState(1)
@@ -26,7 +27,8 @@ export default function JobResults() {
   const limit = 24
   const navigate = useNavigate()
 
-  const observer = useRef()
+  // FIXME:
+  const observer: any = useRef()
   const jobNearEndRef = useCallback(node => {
     if (fetchLoading) return 
     if (observer.current) observer.current.disconnect()

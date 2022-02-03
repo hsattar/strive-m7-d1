@@ -26,7 +26,7 @@ export const updateSearchQueryAction = (query: string) => ({
     payload: query
 })
 
-export const updateCategoryAction = (categories: string) => ({
+export const updateCategoryAction = (categories: string[]) => ({
     type: ACTIONS.UPDATE_CATEGORY,
     payload: categories
 })
