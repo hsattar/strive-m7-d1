@@ -23,8 +23,8 @@ export default function JobResults() {
 
   const [skipQty, setSkipQty] = useState(0)
   const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(24)
 
-  const limit = 24
   const navigate = useNavigate()
 
   // FIXME:
@@ -44,11 +44,11 @@ export default function JobResults() {
 
   useEffect(() => {
     dispatch(startLoadingAction())
-    dispatch(fetchDataAction(params))
-  }, [searchQuery, categories, skipQty])
+    dispatch(fetchDataAction(params, limit))
+  }, [searchQuery, categories, skipQty, limit])
 
   useEffect(() => {
-    setSkipQty(limit * (page - 1))
+    setLimit(24 * page)
   }, [page])
 
   return (
@@ -73,7 +73,7 @@ export default function JobResults() {
         }
         {
           jobsData && jobsData.map((job, idx) => {
-            if (idx === 16) {
+            if (idx === jobsData.length - 4) {
               return (
                 <Grid item ref={jobNearEndRef}  key={job._id} xs={12} md={6}>
                   <SingleJob job={job} />

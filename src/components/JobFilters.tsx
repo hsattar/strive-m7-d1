@@ -11,7 +11,7 @@ export default function JobFilters() {
 
     const [data, setData] = useState([]) 
     // FIXME:
-    const [categoryValue, setCategoryValue] = useState<any>('')
+    const [categoryValue, setCategoryValue] = useState<any>([])
     const { REACT_APP_BASE_URL: BASE_URL }= process.env
 
     const fetchCategories = async () => {

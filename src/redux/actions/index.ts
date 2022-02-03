@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Action } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { IJob } from '../../types/ReduxStore'
 
@@ -35,7 +36,7 @@ export const startLoadingAction = () => ({
     type: ACTIONS.START_LOADING
 })
 // FIXME:
-export const fetchDataAction = (params: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
+export const fetchDataAction = (params: string, limit: number) => async (dispatch: ThunkDispatch<Action, any, any>) => {
     const { REACT_APP_BASE_URL: BASE_URL } = process.env
     const controller = new AbortController()
     try {
@@ -48,13 +49,12 @@ export const fetchDataAction = (params: string) => async (dispatch: ThunkDispatc
                 data: response.data.data,
                 loading: false,
                 error: false,
-                moreData: response.data.data.length === 24
+                moreData: response.data.data.length === limit
             }
         })
-        // FIXME: 
-    } catch (error: any) {
-        if (error.message === 'canceled') return
+    } catch (error) {
         console.log(error)
+        // if (error.message === 'canceled') return
         dispatch({
             type: ACTIONS.ADD_DATA_FROM_API,
             payload: {

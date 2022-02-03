@@ -20,7 +20,7 @@ function CompanyJobs() {
 
     useEffect(() => {
         dispatch(startLoadingAction())
-        dispatch(fetchDataAction(params))
+        dispatch(fetchDataAction(params, 24))
     }, [params])
 
     return (
