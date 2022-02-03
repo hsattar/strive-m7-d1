@@ -76,14 +76,12 @@ export default function JobResults() {
                 <Grid item ref={jobNearEndRef}  key={job._id} xs={12} md={6}>
                   <SingleJob job={job} />
                 </Grid>
-            )
-            } else {
+            )} else {
               return (
                 <Grid item  key={job._id} xs={12} md={6}>
                  <SingleJob job={job} />
                 </Grid>
-            )
-          }
+            )}
           })
         }
         </Grid>
