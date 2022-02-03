@@ -5,10 +5,11 @@ import thunk from 'redux-thunk'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { encryptTransform } from 'redux-persist-transform-encrypt'
+import { IReduxStore } from "../types/ReduxStore"
 
 const composeSafely = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-export const initialState = {
+export const initialState: IReduxStore = {
     jobs: {
         searchQuery: '',
         categories: [],
@@ -22,12 +23,13 @@ export const initialState = {
     }
 }
 
-const persistConfig = {
+const persistConfig: any = {
     key: 'root',
     storage,
     transforms: [
+        // FIXME: ???
         encryptTransform({
-            secretKey: process.env.REACT_APP_SECRET_KEY,
+            secretKey: process.env.REACT_APP_SECRET_KEY as string,
             onError: err => console.log(err)
         })
     ]

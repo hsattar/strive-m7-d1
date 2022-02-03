@@ -1,7 +1,8 @@
+import { AnyAction } from "redux"
 import { ACTIONS } from "../actions"
 import { initialState } from "../store"
 
-const jobReducer = (state = initialState.jobs, action) => {
+const jobReducer = (state = initialState.jobs, action: AnyAction) => {
     switch(action.type) {
         case ACTIONS.UPDATE_SEARCH_QUERY: return {
             ...state,

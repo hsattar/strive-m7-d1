@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function useFetch(params) {
+export default function useFetch(params: string) {
 
     const { REACT_APP_BASE_URL: BASE_URL } = process.env
   
@@ -19,7 +19,8 @@ export default function useFetch(params) {
                     signal: controller.signal
                 })
                 setData(response.data.data)
-            } catch (error) {
+                // FIXME: 
+            } catch (error: any) {
                 if (error.message === 'canceled') return 
                 setError(error)
             } finally {
